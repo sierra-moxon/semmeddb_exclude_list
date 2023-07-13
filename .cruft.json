@@ -1,0 +1,24 @@
+{
+  "template": "https://github.com/monarch-initiative/monarch-project-template",
+  "commit": "990d3463e778f783356c92dadf1a21380636f4d4",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "project_name": "semmeddb_exclude_list",
+      "github_org_name": "sierra-moxon",
+      "__project_slug": "{{ cookiecutter.project_name|lower()|replace(' ', '_')|replace('-', '_') }}",
+      "project_description": "This is the project description.",
+      "min_python_version": "3.10",
+      "file_name": "main",
+      "greeting_recipient": "World",
+      "full_name": "Sierra Moxon",
+      "email": "smoxon@lbl.gov",
+      "__author": "{{cookiecutter.full_name}} <{{cookiecutter.email}}>",
+      "license": "MIT",
+      "github_token_for_doc_deployment": "GH_TOKEN",
+      "github_token_for_pypi_deployment": "PYPI_TOKEN",
+      "_template": "https://github.com/monarch-initiative/monarch-project-template"
+    }
+  },
+  "directory": null
+}
