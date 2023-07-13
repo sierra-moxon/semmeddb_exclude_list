@@ -2,7 +2,7 @@
 name = "semmeddb_exclude_list"
 version = "0.0.0"
 description = "semmeddb_exclude_list"
-authors = ["{{cookiecutter.full_name}} <{{cookiecutter.email}}>"]
+authors = ["Sierra Moxon <smoxon@lbl.gov>"]
 license = "MIT"
 readme = "README.md"
 
@@ -27,7 +27,7 @@ sphinx-click = {version = ">=4.3.0"}
 myst-parser = {version = ">=0.18.1"}
 
 [tool.poetry.scripts]
-semmeddb_exclude_list = "{{ cookiecutter.project_name|lower()|replace(' ', '_')|replace('-', '_') }}.cli:main"
+semmeddb_exclude_list = "semmeddb_exclude_list.cli:main"
 
 [tool.poetry-dynamic-versioning]
 enable = true
@@ -36,7 +36,7 @@ style = "pep440"
 
 [tool.black]
 line-length = 100
-target-version = ["py38", "py39", "py310"]
+target-version = ["py39", "py310", "py311"]
 
 [tool.ruff]
 extend-ignore = [

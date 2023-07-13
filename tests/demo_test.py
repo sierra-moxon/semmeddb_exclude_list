@@ -2,7 +2,7 @@
 
 import unittest
 
-from {{ cookiecutter.project_name|lower()|replace(' ', '_')|replace('-', '_') }} import __version__
+from semmeddb_exclude_list import __version__
 
 
 class TestVersion(unittest.TestCase):
