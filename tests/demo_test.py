@@ -2,7 +2,7 @@
 
 import unittest
 
-from semmeddb_exclude_list import __version__
+from src.semmeddb_exclude_list import __version__
 
 
 class TestVersion(unittest.TestCase):

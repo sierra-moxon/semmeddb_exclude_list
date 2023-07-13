@@ -3,8 +3,8 @@ import logging
 
 import click
 
-from {{ cookiecutter.project_name|lower()|replace(' ', '_')|replace('-', '_') }} import __version__
-from {{ cookiecutter.project_name|lower()|replace(' ', '_')|replace('-', '_') }}.main import demo
+from src.semmeddb_exclude_list import __version__
+from src.semmeddb_exclude_list.main import demo
 
 __all__ = [
     "main",
