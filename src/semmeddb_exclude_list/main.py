@@ -21,12 +21,12 @@ def convert_input_to_output():
     print("range_exclusion_filepath", range_exclusion_filepath)
 
     parsed_output = []
-    parsed_output.append(("SEMMEDDB Subject Code",
-                          "SEMMEDDB Subject T code",
-                          "SEMMEDDB Predicate",
-                          "SEMMEDDB Object Code",
-                          "SEMMEDDB Object T code",
-                          "Notes"))
+    parsed_output.append(("semmed_subject_code",
+                          "semmed_subject_t_code",
+                          "semmed_predicate",
+                          "semmed_object_code",
+                          "semmed_object_t_code",
+                          "exclusion_type"))
 
     id_map = {}
 
@@ -40,8 +40,8 @@ def convert_input_to_output():
                 continue
             id_map[line[0]] = line[1]
             if line[6] in ["Exclude", "exclude"]:
-                exclude_line1 = (line[0], line[1], line[6], "", "", "semantic type exclusion")
-                exclude_line_2 = ("", "", line[6], line[0], line[1])
+                exclude_line1 = (line[0], line[1], "n/a", "n/a", "n/a", "semantic type exclusion")
+                exclude_line_2 = ("n/a", "n/a", "n/a", line[0], line[1], "semantic type exclusion")
                 parsed_output.append(exclude_line1)
                 parsed_output.append(exclude_line_2)
 
@@ -50,12 +50,14 @@ def convert_input_to_output():
             line = line.split("\t")
             if line[1].startswith("Semmed"):
                 continue
+            if line[0] == "":
+                continue
             if line[6] != "0":
                 if line[1] not in id_map:
                     print("line[1]", line[1])
-                    exclude_line1 = ("not_found", line[1], line[3], "", "", "Domain exclusion")
+                    exclude_line1 = ("not_found", line[1], line[3], "n/a", "n/a", "Domain exclusion")
                 else:
-                    exclude_line1 = (id_map[line[1]], line[1], line[3], "", "", "Domain exclusion")
+                    exclude_line1 = (id_map[line[1]], line[1], line[3], "n/a", "n/a", "Domain exclusion")
                 parsed_output.append(exclude_line1)
 
     with open(range_exclusion_filepath, 'r', newline='', encoding='utf-8') as file:
@@ -63,11 +65,13 @@ def convert_input_to_output():
             line = line.split("\t")
             if line[1].startswith("Semmed"):
                 continue
+            if line[0] == "":
+                continue
             if line[1] not in id_map:
                 print("line[1]", line[1])
-                exclude_line1 = ("not_found", line[1], line[3], "", "", "Range exclusion")
+                exclude_line1 = ("n/a", "n/a", line[3], "not_found", line[1], "Range exclusion")
             else:
-                exclude_line1 = (id_map[line[1]], line[1], line[3], "", "", "Range exclusion")
+                exclude_line1 = ("n/a", "n/a", line[3], id_map[line[1]], line[1], "Range exclusion")
             parsed_output.append(exclude_line1)
 
     write_tsv_file(parsed_output, "SEMMEDDB_exclude_list.tsv")
@@ -82,5 +86,7 @@ def write_tsv_file(data, filename):
 
 if __name__ == "__main__":
     parsed_output = convert_input_to_output()
+
+
 
 
