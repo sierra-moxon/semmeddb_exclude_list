@@ -28,6 +28,8 @@ def convert_input_to_output():
                           "SEMMEDDB Object T code",
                           "Notes"))
 
+    id_map = {}
+
     with open(type_exclusion_filepath, 'r', newline='', encoding='utf-8') as file:
         for line in file:
             line = line.split("\t")
@@ -36,27 +38,37 @@ def convert_input_to_output():
             if len(line) < 6:
                 print("length", len(line))
                 continue
+            id_map[line[0]] = line[1]
             if line[6] in ["Exclude", "exclude"]:
                 exclude_line1 = (line[0], line[1], line[6], "", "", "semantic type exclusion")
                 exclude_line_2 = ("", "", line[6], line[0], line[1])
                 parsed_output.append(exclude_line1)
                 parsed_output.append(exclude_line_2)
 
-
     with open(domain_exclusion_filepath, 'r', newline='', encoding='utf-8') as file:
         for line in file:
             line = line.split("\t")
+            if line[1].startswith("Semmed"):
+                continue
             if line[6] != "0":
-                exclude_line1 = ("", line[1], line[3], "", "", "Domain exclusion")
+                if line[1] not in id_map:
+                    print("line[1]", line[1])
+                    exclude_line1 = ("not_found", line[1], line[3], "", "", "Domain exclusion")
+                else:
+                    exclude_line1 = (id_map[line[1]], line[1], line[3], "", "", "Domain exclusion")
                 parsed_output.append(exclude_line1)
 
     with open(range_exclusion_filepath, 'r', newline='', encoding='utf-8') as file:
         for line in file:
             line = line.split("\t")
-            print(line)
-            if line[6] != "0":
-                exclude_line1 = ("", "", line[3], "", line[1], "Range exclusion")
-                parsed_output.append(exclude_line1)
+            if line[1].startswith("Semmed"):
+                continue
+            if line[1] not in id_map:
+                print("line[1]", line[1])
+                exclude_line1 = ("not_found", line[1], line[3], "", "", "Range exclusion")
+            else:
+                exclude_line1 = (id_map[line[1]], line[1], line[3], "", "", "Range exclusion")
+            parsed_output.append(exclude_line1)
 
     write_tsv_file(parsed_output, "SEMMEDDB_exclude_list.tsv")
 
